@@ -18,17 +18,19 @@ import { deleteCart } from '../controller/cartControll';
 
 import { authentication } from '../middleware/auth';
 import { userValidation } from '../middleware/validation';
+import { productValidation } from '../middleware/validation';
+import { cartValidation } from '../middleware/validation'
 
 router.post('/createUser', userValidation(), user);
 router.post('/userLogin', login);
 
-router.post('/createProduct', authentication, product);
+router.post('/createProduct', productValidation(), authentication, product);
 router.get('/getProductById/:productId', authentication, findOneProduct);
 router.get('/getAllProduct', authentication, getAllProduct);
 router.put('/updateProduct/:productId', authentication, updateProduct);
 router.delete('/deleteProduct/:productId', authentication, deleteProduct);
 
-router.post('/createCart', authentication, cart);
+router.post('/createCart', cartValidation, authentication, cart);
 router.get('/getCartById/:cartId', authentication, getCart);
 router.get('/getAllCart', authentication, getAllCart);
 router.put('/updateCart/:cartId', authentication, updateCart);
