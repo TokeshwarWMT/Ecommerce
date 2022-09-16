@@ -8,7 +8,11 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    price: String
+    price: Number,
+    quantity: {
+        type: Number,
+        default: 0
+    }
 });
 
 const Product = mongoose.model('Product', productSchema);

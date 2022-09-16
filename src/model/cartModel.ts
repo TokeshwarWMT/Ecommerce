@@ -8,11 +8,10 @@ const cartSchema = new mongoose.Schema({
         ref: 'User'
     },
     productId: {
-        type: ObjectId,
+        type: [ObjectId],
         ref: 'Product'
     },
-    name: String,
-    quantity: String
+    total: Number
 });
 
 const Cart = mongoose.model('Cart', cartSchema);

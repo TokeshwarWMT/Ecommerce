@@ -14,9 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.updateProduct = exports.getAllProduct = exports.findOneProduct = exports.product = void 0;
 const productModel_1 = __importDefault(require("../model/productModel"));
+const express_validator_1 = require("express-validator");
 function product(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const errors = (0, express_validator_1.validationResult)(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
             let data = req.body;
             const product = yield productModel_1.default.create(data);
             return res.status(201).send({ status: true, message: 'successful', data: product });

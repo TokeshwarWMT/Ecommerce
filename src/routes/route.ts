@@ -30,7 +30,7 @@ router.get('/getAllProduct', authentication, getAllProduct);
 router.put('/updateProduct/:productId', authentication, updateProduct);
 router.delete('/deleteProduct/:productId', authentication, deleteProduct);
 
-router.post('/createCart', cartValidation, authentication, cart);
+router.post('/createCart', cartValidation(), authentication, cart);
 router.get('/getCartById/:cartId', authentication, getCart);
 router.get('/getAllCart', authentication, getAllCart);
 router.put('/updateCart/:cartId', authentication, updateCart);

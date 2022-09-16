@@ -11,11 +11,10 @@ const cartSchema = new mongoose_1.default.Schema({
         ref: 'User'
     },
     productId: {
-        type: ObjectId,
+        type: [ObjectId],
         ref: 'Product'
     },
-    name: String,
-    quantity: String
+    total: Number
 });
 const Cart = mongoose_1.default.model('Cart', cartSchema);
 exports.default = Cart;

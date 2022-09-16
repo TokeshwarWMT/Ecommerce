@@ -1,8 +1,16 @@
 import { Request, Response } from 'express';
 import Cart from '../model/cartModel';
+import { validationResult } from 'express-validator';
+import Product from '../model/productModel';
+
 
 export async function cart(req: Request, res: Response) {
     try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         let data = req.body;
         const cart = await Cart.create(data);
         return res.status(201).send({ status: false, message: 'successful..', cartDetails: cart })
@@ -64,3 +72,17 @@ export async function deleteCart(req: Request, res: Response) {
 };
 
 
+export async function addProduct(req: Request, res: Response) {
+    try {
+        let productId = req.body;
+        let cartId = req.params;
+        const product = await Product.findById(productId);
+        const cart = await Cart.findById(cartId);
+        cart?.productId.push(productId)
+        if (product?.price && cart && product.quantity)
+            cart.total += product?.price * product?.quantity;
+
+    } catch (error) {
+        console.log(error)
+    }
+};

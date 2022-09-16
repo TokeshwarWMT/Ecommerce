@@ -16,3 +16,15 @@ export async function authentication(req: Request, res: Response, next: NextFunc
     };
     next();
 };
+
+
+export async function authorization(req: Request, res: Response, next: NextFunction) {
+    try {
+   
+        
+
+    } catch (error) {
+        
+    }
+}
+

@@ -12,11 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCart = exports.updateCart = exports.getAllCart = exports.getCart = exports.cart = void 0;
+exports.addProduct = exports.deleteCart = exports.updateCart = exports.getAllCart = exports.getCart = exports.cart = void 0;
 const cartModel_1 = __importDefault(require("../model/cartModel"));
+const express_validator_1 = require("express-validator");
+const productModel_1 = __importDefault(require("../model/productModel"));
 function cart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const errors = (0, express_validator_1.validationResult)(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
             let data = req.body;
             const cart = yield cartModel_1.default.create(data);
             return res.status(201).send({ status: false, message: 'successful..', cartDetails: cart });
@@ -90,4 +96,22 @@ function deleteCart(req, res) {
     });
 }
 exports.deleteCart = deleteCart;
+;
+function addProduct(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            let productId = req.body;
+            let cartId = req.params;
+            const product = yield productModel_1.default.findById(productId);
+            const cart = yield cartModel_1.default.findById(cartId);
+            cart === null || cart === void 0 ? void 0 : cart.productId.push(productId);
+            if ((product === null || product === void 0 ? void 0 : product.price) && cart && product.quantity)
+                cart.total += (product === null || product === void 0 ? void 0 : product.price) * (product === null || product === void 0 ? void 0 : product.quantity);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+}
+exports.addProduct = addProduct;
 ;

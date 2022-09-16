@@ -28,7 +28,7 @@ router.get('/getProductById/:productId', auth_1.authentication, productControlle
 router.get('/getAllProduct', auth_1.authentication, productController_3.getAllProduct);
 router.put('/updateProduct/:productId', auth_1.authentication, productController_4.updateProduct);
 router.delete('/deleteProduct/:productId', auth_1.authentication, productController_5.deleteProduct);
-router.post('/createCart', validation_3.cartValidation, auth_1.authentication, cartControll_1.cart);
+router.post('/createCart', (0, validation_3.cartValidation)(), auth_1.authentication, cartControll_1.cart);
 router.get('/getCartById/:cartId', auth_1.authentication, cartControll_2.getCart);
 router.get('/getAllCart', auth_1.authentication, cartControll_3.getAllCart);
 router.put('/updateCart/:cartId', auth_1.authentication, cartControll_4.updateCart);
