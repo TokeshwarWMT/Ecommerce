@@ -19,7 +19,8 @@ import { addProduct } from '../controller/cartControll';
 import { filterProduct } from '../controller/productController';
 
 import { authentication } from '../middleware/auth';
-import { authorization } from '../middleware/auth';
+import { productAuthorization } from '../middleware/auth';
+import { cartAuthorization } from '../middleware/auth';
 import { userValidation } from '../middleware/validation';
 import { productValidation } from '../middleware/validation';
 import { cartValidation } from '../middleware/validation'
@@ -30,15 +31,15 @@ router.post('/userLogin', login);
 router.post('/createProduct', productValidation(), authentication, product);
 router.get('/getProductById/:productId', authentication, findOneProduct);
 router.get('/getAllProduct', authentication, getAllProduct);
-router.put('/updateProduct/:productId', authentication, authorization, updateProduct);
-router.delete('/deleteProduct/:productId', authentication, deleteProduct);
+router.put('/updateProduct/:productId', authentication, productAuthorization, updateProduct);
+router.delete('/deleteProduct/:productId', authentication, productAuthorization, deleteProduct);
 router.get('/filterProduct', authentication, filterProduct);
 
 router.post('/createCart', cartValidation(), authentication, cart);
 router.get('/getCartById/:cartId', authentication, getCart);
 router.get('/getAllCart', authentication, getAllCart);
-router.put('/updateCart/:cartId', authentication, updateCart);
-router.delete('/deleteCart/:cartId', authentication, deleteCart);
+router.put('/updateCart/:cartId', authentication, cartAuthorization, updateCart);
+router.delete('/deleteCart/:cartId', authentication, cartAuthorization, deleteCart);
 router.post('/addProduct/:cartId', addProduct)
 
 export default router;

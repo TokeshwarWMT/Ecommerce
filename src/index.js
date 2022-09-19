@@ -10,8 +10,9 @@ const route_1 = __importDefault(require("./routes/route"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use('/', route_1.default);
+let uri = process.env.MONGODB_URL;
 try {
-    mongoose_1.default.connect('mongodb+srv://Satyaveer1994:Satyaveer123@cluster0.pn1nk.mongodb.net/wmt');
+    mongoose_1.default.connect(uri);
     console.log('MongoDB connection successful..');
 }
 catch (error) {

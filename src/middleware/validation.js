@@ -40,13 +40,13 @@ exports.userValidation = userValidation;
 // }
 function productValidation() {
     return [(0, express_validator_1.check)('productName').not().isEmpty().withMessage('product name is required..!!'),
-        (0, express_validator_1.check)('userId').not().isEmpty().withMessage('authorId is required..!!'),
+        (0, express_validator_1.check)('userId').not().isEmpty().withMessage('userId is required..!!'),
         (0, express_validator_1.check)('price').not().isEmpty().withMessage('price is required..!!')];
 }
 exports.productValidation = productValidation;
 ;
 function cartValidation() {
-    return [(0, express_validator_1.check)('authorId').not().isEmpty().withMessage('authorId is required..!!'),
+    return [(0, express_validator_1.check)('userId').not().isEmpty().withMessage('userId is required..!!'),
         (0, express_validator_1.check)('productId').not().isEmpty().withMessage('productId is required..!!'),
         (0, express_validator_1.check)('price').not().isEmpty().withMessage('price is required..!!')
     ];

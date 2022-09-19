@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authorization = exports.authentication = void 0;
+exports.cartAuthorization = exports.productAuthorization = exports.authentication = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const cartModel_1 = __importDefault(require("../model/cartModel"));
 const productModel_1 = __importDefault(require("../model/productModel"));
 function authentication(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -36,10 +37,9 @@ function authentication(req, res, next) {
 }
 exports.authentication = authentication;
 ;
-function authorization(req, res, next) {
+function productAuthorization(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            ;
             let token = req.headers['x-api-key'];
             let key = process.env.SECRET_KEY;
             let decodedToken = jsonwebtoken_1.default.verify(token, key);
@@ -60,5 +60,30 @@ function authorization(req, res, next) {
         }
     });
 }
-exports.authorization = authorization;
+exports.productAuthorization = productAuthorization;
+;
+function cartAuthorization(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            let token = req.headers['x-api-key'];
+            let key = process.env.SECRET_KEY;
+            let decodedToken = jsonwebtoken_1.default.verify(token, key);
+            let loggingIn = req.params.cartId;
+            let loggedIn = decodedToken.id;
+            const value = yield cartModel_1.default.findById(loggingIn);
+            if (!value) {
+                return res.status(400).send({ status: false, message: 'cart not found..' });
+            }
+            ;
+            if (value.userId.toString() !== loggedIn) {
+                return res.status(400).send({ status: false, message: 'you can not access..' });
+            }
+            next();
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+}
+exports.cartAuthorization = cartAuthorization;
 ;

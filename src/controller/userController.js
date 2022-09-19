@@ -25,7 +25,7 @@ function user(req, res) {
         }
         let data = req.body;
         const { fName, lName, mobile, email, password, address } = data;
-        const salt = 10;
+        const salt = yield bcrypt_1.default.genSalt(10);
         const encryptedPassword = yield bcrypt_1.default.hash(password, salt);
         const userData = {
             fName: fName, lName: lName, mobile: mobile, email: email, password: encryptedPassword, address: address
@@ -46,10 +46,11 @@ function login(req, res) {
                 return res.status(400).send({ status: false, message: 'email is incorrect..!!' });
             const password = user === null || user === void 0 ? void 0 : user.password;
             const passMatch = yield bcrypt_1.default.compare(pass, password);
+            let key = process.env.SECRET_KEY;
             if (passMatch) {
                 const token = jsonwebtoken_1.default.sign({
                     id: user === null || user === void 0 ? void 0 : user._id
-                }, 'webmobtech');
+                }, key);
                 res.status(201).send({ status: true, data: token });
             }
             else {

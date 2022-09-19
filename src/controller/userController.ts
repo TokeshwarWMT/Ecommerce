@@ -15,7 +15,8 @@ export async function user(req: Request, res: Response) {
     let data = req.body;
     const { fName, lName, mobile, email, password, address } = data;
 
-    const salt = 10;
+    const salt = await bcrypt.genSalt(10);
+
     const encryptedPassword = await bcrypt.hash(password, salt);
 
     const userData = {
@@ -38,10 +39,12 @@ export async function login(req: Request, res: Response) {
 
         const password = user?.password as string;
         const passMatch = await bcrypt.compare(pass, password);
+        let key: string = process.env.SECRET_KEY as string;
+
         if (passMatch) {
             const token = jwt.sign({
                 id: user?._id
-            }, 'webmobtech');
+            }, key);
             res.status(201).send({ status: true, data: token })
         } else {
             return res.status(400).send({ status: false, message: 'password is not correct..!!' })

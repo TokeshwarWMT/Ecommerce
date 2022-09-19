@@ -38,12 +38,12 @@ export function userValidation() {
 
 export function productValidation() {
     return [check('productName').not().isEmpty().withMessage('product name is required..!!'),
-    check('userId').not().isEmpty().withMessage('authorId is required..!!'),
+    check('userId').not().isEmpty().withMessage('userId is required..!!'),
     check('price').not().isEmpty().withMessage('price is required..!!')]
 };
 
 export function cartValidation() {
-    return [check('authorId').not().isEmpty().withMessage('authorId is required..!!'),
+    return [check('userId').not().isEmpty().withMessage('userId is required..!!'),
     check('productId').not().isEmpty().withMessage('productId is required..!!'),
     check('price').not().isEmpty().withMessage('price is required..!!')
     ]
