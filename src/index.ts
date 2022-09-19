@@ -1,4 +1,4 @@
-import dotenv from 'dotenv/config'
+import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import routes from './routes/route'
@@ -13,7 +13,7 @@ try {
     console.log(error)
 };
 
-const port = 3000
-app.listen(port, () => {
-    console.log(`Express App is running on ${port}`)
+// const port = 3000
+app.listen(process.env.PORT, () => {
+    console.log(`Express App is running on ${process.env.PORT}`)
 });

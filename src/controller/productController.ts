@@ -22,7 +22,7 @@ export async function product(req: Request, res: Response) {
 export async function findOneProduct(req: Request, res: Response) {
     try {
         let id = req.params.productId;
-        const product = await Product.findById(id).populate('authorId');
+        const product = await Product.findById(id).populate('userId');
         if (!product) {
             return res.status(400).send({ status: false, message: 'product does not exist..' })
         };
@@ -65,6 +65,22 @@ export async function deleteProduct(req: Request, res: Response) {
             return res.status(200).send({ status: false, message: 'product is already deleted..' });
         };
         return res.status(200).send({ status: false, message: 'successfully deleted..' });
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
+export async function filterProduct(req: Request, res: Response) {
+    try {
+        let filter = req.query;
+        const product = await Product.find(filter);
+        if (product) {
+            return res.status(200).send({ status: true, message: 'successfull..', productDetails: product })
+        } else {
+            return res.status(400).send({ status: false, message: 'Product not found..' })
+        }
+
     } catch (error) {
         console.log(error)
     }

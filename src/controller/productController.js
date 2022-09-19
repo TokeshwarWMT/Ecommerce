@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.updateProduct = exports.getAllProduct = exports.findOneProduct = exports.product = void 0;
+exports.filterProduct = exports.deleteProduct = exports.updateProduct = exports.getAllProduct = exports.findOneProduct = exports.product = void 0;
 const productModel_1 = __importDefault(require("../model/productModel"));
 const express_validator_1 = require("express-validator");
 function product(req, res) {
@@ -37,7 +37,7 @@ function findOneProduct(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let id = req.params.productId;
-            const product = yield productModel_1.default.findById(id).populate('authorId');
+            const product = yield productModel_1.default.findById(id).populate('userId');
             if (!product) {
                 return res.status(400).send({ status: false, message: 'product does not exist..' });
             }
@@ -96,4 +96,23 @@ function deleteProduct(req, res) {
     });
 }
 exports.deleteProduct = deleteProduct;
+;
+function filterProduct(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            let filter = req.query;
+            const product = yield productModel_1.default.find(filter);
+            if (product) {
+                return res.status(200).send({ status: true, message: 'successfull..', productDetails: product });
+            }
+            else {
+                return res.status(400).send({ status: false, message: 'Product not found..' });
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+}
+exports.filterProduct = filterProduct;
 ;

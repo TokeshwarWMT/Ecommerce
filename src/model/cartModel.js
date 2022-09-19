@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const ObjectId = mongoose_1.default.Schema.Types.ObjectId;
 const cartSchema = new mongoose_1.default.Schema({
-    authorId: {
+    userId: {
         type: ObjectId,
         ref: 'User'
     },

@@ -100,8 +100,13 @@ exports.deleteCart = deleteCart;
 function addProduct(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let productId = req.body;
-            let cartId = req.params;
+            // let productId = req.body;
+            const { productId } = req.body;
+            // let cartId = req.params;
+            const { cartId } = req.params;
+            if (productId.match(/^[0-9a-fA-F]{24}$/)) {
+                console.log('valid');
+            }
             const product = yield productModel_1.default.findById(productId);
             const cart = yield cartModel_1.default.findById(cartId);
             cart === null || cart === void 0 ? void 0 : cart.productId.push(productId);

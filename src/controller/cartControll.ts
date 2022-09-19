@@ -74,8 +74,13 @@ export async function deleteCart(req: Request, res: Response) {
 
 export async function addProduct(req: Request, res: Response) {
     try {
-        let productId = req.body;
-        let cartId = req.params;
+        // let productId = req.body;
+        const { productId } = req.body;
+        // let cartId = req.params;
+        const { cartId } = req.params
+        if (productId.match(/^[0-9a-fA-F]{24}$/)) {
+            console.log('valid')
+        }
         const product = await Product.findById(productId);
         const cart = await Cart.findById(cartId);
         cart?.productId.push(productId)

@@ -10,6 +10,10 @@ const userSchema = new mongoose_1.default.Schema({
     mobile: Number,
     email: String,
     password: String,
+    address: {
+        street: String,
+        pincode: Number
+    }
 });
 const User = mongoose_1.default.model('User', userSchema);
 exports.default = User;

@@ -24,11 +24,11 @@ function user(req, res) {
             return res.status(400).json({ errors: errors.array() });
         }
         let data = req.body;
-        const { fName, lName, mobile, email, password } = data;
+        const { fName, lName, mobile, email, password, address } = data;
         const salt = 10;
         const encryptedPassword = yield bcrypt_1.default.hash(password, salt);
         const userData = {
-            fName: fName, lName: lName, mobile: mobile, email: email, password: encryptedPassword
+            fName: fName, lName: lName, mobile: mobile, email: email, password: encryptedPassword, address: address
         };
         const user = yield userModel_1.default.create(userData);
         return res.status(201).send({ status: false, message: 'successful..', data: user });

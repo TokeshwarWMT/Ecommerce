@@ -13,13 +13,13 @@ export async function user(req: Request, res: Response) {
     }
 
     let data = req.body;
-    const { fName, lName, mobile, email, password } = data;
+    const { fName, lName, mobile, email, password, address } = data;
 
     const salt = 10;
     const encryptedPassword = await bcrypt.hash(password, salt);
 
     const userData = {
-        fName: fName, lName: lName, mobile: mobile, email: email, password: encryptedPassword
+        fName: fName, lName: lName, mobile: mobile, email: email, password: encryptedPassword, address: address
     };
 
     const user = await User.create(userData);

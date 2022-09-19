@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authorization = exports.authentication = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const productModel_1 = __importDefault(require("../model/productModel"));
 function authentication(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -22,7 +23,7 @@ function authentication(req, res, next) {
                 res.status(400).send({ status: false, message: 'please input token..!!' });
             }
             ;
-            let key = 'webmobtech';
+            let key = process.env.SECRET_KEY;
             let decodedToken = jsonwebtoken_1.default.verify(token, key);
             // return res.status(200).send({ status: true, data: decodedToken })
         }
@@ -38,9 +39,26 @@ exports.authentication = authentication;
 function authorization(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            ;
+            let token = req.headers['x-api-key'];
+            let key = process.env.SECRET_KEY;
+            let decodedToken = jsonwebtoken_1.default.verify(token, key);
+            let loggingIn = req.params.productId;
+            let loggedIn = decodedToken.id;
+            const value = yield productModel_1.default.findById(loggingIn);
+            if (!value) {
+                return res.status(400).send({ status: false, message: 'product not found..' });
+            }
+            ;
+            if (value.userId.toString() !== loggedIn) {
+                return res.status(400).send({ status: false, message: 'you can not access..' });
+            }
+            next();
         }
         catch (error) {
+            console.log(error);
         }
     });
 }
 exports.authorization = authorization;
+;
